@@ -1,5 +1,5 @@
-# nba-statistics-app
-NBA analytics and data visualization app made using Dash and Plotly.py
+# NBA Fantasy Team Statistics App
+NBA analytics and data visualization app made using Dash and Plotly.py. Live out your NBA GM dreams by creating your own custom team.
 
 ## Getting Started
 You will need the following dependencies to run the app: <br />
@@ -32,3 +32,4 @@ python app.py
 ## Planned Updates
 View stats for your custom team. <br />
 Make app more stylish. <br />
+Connect to the ESPN API for live updates.
