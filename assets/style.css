@@ -1,6 +1,26 @@
+body{
+    margin:0;
+    padding:0;
+}
+
 .container{
     position: relative;
     width: 100%;
     box-sizing: border-box;
     border-color: black;
+}
+
+.header{
+    margin:0px;
+    background-color: #202020;
+    color:white;
+    padding-left:32px;
+    padding-right:32px;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+.row{
+    padding-left: 64px;
+    padding-right: 64px;
 }
