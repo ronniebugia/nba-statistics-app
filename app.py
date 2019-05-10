@@ -21,9 +21,9 @@ list_of_chosen_players = []
 list_of_teams.append('All')
 
 colors = {
-    'paper-color' : 'rgb(255,255,255, 1)',
-    'plot-color': 'rgb(255,255,255, 1)',
-    'text-color':'rgb(255,255,255,1)'
+    'paper-color' : '#F4F4FA',
+    'plot-color': '#F4F4FA',
+    'text-color':'rgb(0,0,0,1)'
 }
 
 
@@ -51,7 +51,7 @@ app.layout = html.Div(children=[
                 style={'display': 'inline-block',
                       'maxHeight': '100px'}
         ),
-        html.H2(children='Fantasy Draft App')
+        html.H2(children='Fantasy Draft App', style={'color':'white'})
     ]),
 
     html.Div(className='row', children=[
@@ -116,17 +116,19 @@ app.layout = html.Div(children=[
     ## Custom Team Graphs
     html.Div(className='row', children=[
         html.H2('Check out the stats for your custom team'),
-        dcc.Graph(id='team-ternary-plot'),
         html.Div(className='row', children=[
-            html.Div(className='six columns', children=[
-                dcc.Graph(id='custom-team-graph'),
+            html.Div(className='four columns', children=[
+                dcc.Graph(id='team-ternary-plot')
+            ]),
+            html.Div(className='four columns', children=[
                 dcc.Dropdown(
                     id='stat-custom-team',
                     options=[{'label': i, 'value': i} for i in list_of_stats],
                     value=' PER_LAST_SEASON'
-                )
+                ),
+                dcc.Graph(id='custom-team-graph')
             ]),
-            html.Div(className='six columns', children=[
+            html.Div(className='four columns', children=[
                 dcc.Graph(id='team_radar')
             ])
         ])
@@ -348,7 +350,7 @@ def set_custom_team_tern(selected_players):
             tern_data.append({'PPG': df[' PPG_CAREER'][player_idx],
                             'APG': df[' APG_CAREER'][player_idx],
                             'RPG': df[' RGP_CAREER'][player_idx],
-                            'label':i
+                            'label':i['value']
             })
 
         data = [{ 
@@ -373,13 +375,16 @@ def set_custom_team_tern(selected_players):
                 'baxis': makeAxis('<br>Rebounds', 45),
                 'caxis': makeAxis('<br>Assists', -45)
             },
+            
             'annotations': [{
             'showarrow': False,
             'text': 'Ternary Plot of Your Custom Team',
                 'x': 0.5,
                 'y': 1.3,
                 'font': { 'size': 15 }
-            }]
+            }],
+            'plot_bgcolor': colors['plot-color'],
+            'paper_bgcolor': colors['paper-color'],
         }
 
         return {'data': data, 'layout': layout}       

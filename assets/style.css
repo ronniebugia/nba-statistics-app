@@ -4,22 +4,22 @@
 body{
     margin:0;
     padding:0;
-    background-color:darkgrey;
+    background-color:#F4F4FA;
 }
 
 p{
     font-family: 'Noto Sans', sans-serif;
-    color: white;
+    color: black;
 }
 
 h1,h2,h3{
     font-family: 'Fjalla One', sans-serif;
-    color: white;
+    color: black;
 }
 
 button{
-    color:white;
-    border: 3px solid white;
+    color:black;
+    border: 3px solid black;
 }
 
 .container{
