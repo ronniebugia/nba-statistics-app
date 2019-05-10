@@ -1,6 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla One');
+@import url('https://fonts.googleapis.com/css?family=Noto Sans');
+
 body{
     margin:0;
     padding:0;
+    background-color:darkgrey;
+}
+
+p{
+    font-family: 'Noto Sans', sans-serif;
+    color: white;
+}
+
+h1,h2,h3{
+    font-family: 'Fjalla One', sans-serif;
+    color: white;
+}
+
+button{
+    color:white;
+    border: 3px solid white;
 }
 
 .container{
@@ -14,13 +33,15 @@ body{
     margin:0px;
     background-color: #202020;
     color:white;
-    padding-left:32px;
-    padding-right:32px;
+    padding-left:64px;
+    padding-right:64px;
     padding-top:5px;
     padding-bottom:5px;
 }
 
 .row{
+    padding-top: 10px;
     padding-left: 64px;
     padding-right: 64px;
+    padding-bottom: 10px;
 }
