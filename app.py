@@ -11,9 +11,8 @@ from dash.dependencies import Input, Output, State
 
 df = pd.read_csv('NBA_Players.csv')
 style_sheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=style_sheet)
 server = app.server
-app = dash.Dash(__name__, external_stylesheets=style_sheet, server=server)
-
 
 list_of_teams = list(df['TEAM'].unique())
 list_of_players = list(df[' NAME'].unique())
