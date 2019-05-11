@@ -13,8 +13,6 @@ df = pd.read_csv('NBA_Players.csv')
 style_sheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=style_sheet)
 
-server = app.server
-
 list_of_teams = list(df['TEAM'].unique())
 list_of_players = list(df[' NAME'].unique())
 list_of_stats = [" AGE"," HT"," WT", " SALARY", " PPG_LAST_SEASON"," APG_LAST_SEASON"," RPG_LAST_SEASON"," PER_LAST_SEASON"," PPG_CAREER"," APG_CAREER"," RGP_CAREER"," GP"," MPG"," FGM_FGA"," FGP"," THM_THA"," THP"," FTM_FTA"," FTP"," APG"," BLKPG"," STLPG"," TOPG"," PPG"]
