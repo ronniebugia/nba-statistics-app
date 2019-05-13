@@ -265,14 +265,15 @@ def set_player_radar(selected_player):
     State('custom-team-checklist', 'values')])
 def add_to_team_checklist(n_clicks_add, add_time, remove_time, chosen_player, players_to_remove):
     if(remove_time and add_time and remove_time > add_time):
+        filtered_list_of_chosen_players = list_of_chosen_players
         for i in players_to_remove: 
-            list_of_chosen_players.remove(i) 
-        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in list_of_chosen_players], []
-    elif(chosen_player and chosen_player in list_of_chosen_players):
-        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in list_of_chosen_players], [j  for j in players_to_remove]
+            filtered_list_of_chosen_players.remove(i) 
+        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in filtered_list_of_chosen_players], []
+    elif(chosen_player and chosen_player in filtered_list_of_chosen_players):
+        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in filtered_list_of_chosen_players], [j  for j in players_to_remove]
     elif(n_clicks_add and chosen_player):
-        list_of_chosen_players.append(chosen_player)
-        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in list_of_chosen_players], [j  for j in players_to_remove]
+        filtered_list_of_chosen_players.append(chosen_player)
+        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in filtered_list_of_chosen_players], [j  for j in players_to_remove]
     else:
         return [], []
 
