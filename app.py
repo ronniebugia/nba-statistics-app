@@ -83,7 +83,7 @@ app.layout = html.Div(children=[
 
 
     html.Div(className='row', children=[
-            html.Div(className='four columns', 
+            html.Div(className='three columns', 
                 children=[
                     html.H2(id='player-on-team-div'),
                     html.Div(id='player-stats'),
@@ -91,8 +91,8 @@ app.layout = html.Div(children=[
                     html.Button(id='btn_add_to_team', n_clicks=0, children='Add')
                 ]
             ),
-            html.Div(className='four columns', 
-                children=[dcc.Graph(id='player_radar')]
+            html.Div(className='five columns', 
+                children=[dcc.Graph(id='team_radar')]
             ),
             html.Div(className='four columns', children=[
                 html.H2('Your Custom Team'),
@@ -113,19 +113,16 @@ app.layout = html.Div(children=[
     html.Div(className='row', children=[
         html.H2('Check out the stats for your custom team'),
         html.Div(className='row', children=[
-            html.Div(className='four columns', children=[
+            html.Div(children=[
                 dcc.Graph(id='team-ternary-plot')
             ]),
-            html.Div(className='four columns', children=[
+            html.Div(children=[
                 dcc.Dropdown(
                     id='stat-custom-team',
                     options=[{'label': i, 'value': i} for i in list_of_stats],
                     value=' PER_LAST_SEASON'
                 ),
                 dcc.Graph(id='custom-team-graph')
-            ]),
-            html.Div(className='four columns', children=[
-                dcc.Graph(id='team_radar')
             ])
         ])
     ]),
@@ -220,40 +217,6 @@ def set_player_stats_div(selected_player,):
         ]
 
 
-#Callback to view individual player radar plot
-@app.callback(
-    Output('player_radar', 'figure'),
-    [Input('players-on-team-dropdown', 'value')])
-def set_player_radar(selected_player):
-    if(selected_player):
-        player_index = list_of_players.index(selected_player)
-        data_model = [
-            go.Scatterpolar(
-                name = str(selected_player),
-                r =  [df[' PPG_CAREER'][player_index], df[' APG_CAREER'][player_index], df[' RGP_CAREER'][player_index], df[' BLKPG'][player_index], df[' STLPG'][player_index]],
-                theta = ['PPG', 'APG', 'RPG', 'BPG', 'SPG'],
-                fill = 'toself'
-            ), 
-        ]
-        layout_model = go.Layout(
-            polar = dict(
-                radialaxis = dict(
-                    visible = True,
-                    range = [0, 35]
-                )
-            ),
-            title=str(selected_player),
-            plot_bgcolor=colors['plot-color'],
-            paper_bgcolor=colors['paper-color']
-        )
-        return{
-            'data': data_model,
-            'layout': layout_model
-        }
-    else:
-        return {}
-
-
 ## Callback to pick custom team
 @app.callback(
     [Output('custom-team-checklist', 'options'),
@@ -303,14 +266,23 @@ def custom_team_graph(custom_team_players, chosen_stat):
 #Callback for custom team radar plot
 @app.callback(
     Output('team_radar', 'figure'),
-    [Input('custom-team-checklist', 'options')])
-def set_custom_team_radar(selected_players):
+    [Input('custom-team-checklist', 'options'),
+    Input('players-on-team-dropdown', 'value')])
+def set_custom_team_radar(selected_players, considered_player):
+    data_model = []
+    players_to_plot = []
     if(selected_players):
-        data_model = []
         for i in selected_players:
-            player_idx = list_of_players.index(i['value'])
+            players_to_plot.append(i['value'])
+
+    if(considered_player and considered_player not in players_to_plot):
+        players_to_plot.append(considered_player)
+
+    if(players_to_plot):
+        for i in players_to_plot:
+            player_idx = list_of_players.index(i)
             data_model.append(go.Scatterpolar(
-                name = i['value'],
+                name = i,
                 r = [df[' PPG_CAREER'][player_idx], df[' APG_CAREER'][player_idx], df[' RGP_CAREER'][player_idx], df[' BLKPG'][player_idx], df[' STLPG'][player_idx]],
                 theta = ['PPG', 'APG', 'RPG', 'BPG', 'SPG'],
                 fill = 'toself'
