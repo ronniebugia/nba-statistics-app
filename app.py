@@ -17,7 +17,6 @@ server = app.server
 list_of_teams = list(df['TEAM'].unique())
 list_of_players = list(df[' NAME'].unique())
 list_of_stats = [" AGE"," HT"," WT", " SALARY", " PPG_LAST_SEASON"," APG_LAST_SEASON"," RPG_LAST_SEASON"," PER_LAST_SEASON"," PPG_CAREER"," APG_CAREER"," RGP_CAREER"," GP"," MPG"," FGM_FGA"," FGP"," THM_THA"," THP"," FTM_FTA"," FTP"," APG"," BLKPG"," STLPG"," TOPG"," PPG"]
-list_of_chosen_players = []
 list_of_teams.append('All')
 
 colors = {
@@ -225,17 +224,25 @@ def set_player_stats_div(selected_player,):
     Input('btn_add_to_team', 'n_clicks_timestamp'),
     Input('btn-remove-from-team', 'n_clicks_timestamp')],
     [State('players-on-team-dropdown', 'value'),
-    State('custom-team-checklist', 'values')])
-def add_to_team_checklist(n_clicks_add, add_time, remove_time, chosen_player, players_to_remove):
+    State('custom-team-checklist', 'values'),
+    State('custom-team-checklist', 'options')])
+def add_to_team_checklist(n_clicks_add, add_time, remove_time, chosen_player, players_to_remove, custom_team):
+    customTeam = [] 
+    if(custom_team):
+        customTeam = [i['value'] for i in custom_team]
+    # Remove Player from custom team
     if(remove_time and add_time and remove_time > add_time):
         for i in players_to_remove: 
-            list_of_chosen_players.remove(i) 
-        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in list_of_chosen_players], []
-    elif(chosen_player and chosen_player in list_of_chosen_players):
-        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in list_of_chosen_players], [j  for j in players_to_remove]
+            customTeam.remove(i) 
+        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in customTeam], []
+    # Player to Add is already in the custom team
+    elif(chosen_player and customTeam and chosen_player in customTeam):
+        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in customTeam], [j  for j in players_to_remove]
+    # Player is not in the custom team and you want to add
     elif(n_clicks_add and chosen_player):
-        list_of_chosen_players.append(chosen_player)
-        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in list_of_chosen_players], [j  for j in players_to_remove]
+        customTeam.append(chosen_player)
+        return [{'label': '{} {}'.format(i, df[' POSITION'][list_of_players.index(i)]), 'value': i} for i in customTeam], [j  for j in players_to_remove]
+    # Nuffin'
     else:
         return [], []
 
