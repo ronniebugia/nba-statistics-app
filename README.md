@@ -14,7 +14,7 @@ Clone this repository on your computer then cd into repository
 
 ```
 git clone https://github.com/ronniebugia/nba-statistics-app.git
-cd nba-dash-app
+cd nba-statistics-app
 ```
 
 Install dependencies from requirements.txt
